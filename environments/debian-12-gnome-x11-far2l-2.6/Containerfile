@@ -1,0 +1,16 @@
+# Тестовая среда: Debian 12 + far2l 2.6.5 из bookworm-backports (как у пользователя) + инструменты снимков.
+# Используется tools/e2e.py. Рабочий стол GNOME здесь не нужен: графическое окно far2l рисуется в Xvfb.
+# Версия far2l закреплена (как в expect.json). Если репозиторий её больше не отдаёт, сборка упадёт:
+# тогда уберите закрепление, прогоните tools/e2e.py и обновите expect.json, README и tested в профиле.
+FROM docker.io/library/debian:12
+RUN echo "deb http://deb.debian.org/debian bookworm-backports main" > /etc/apt/sources.list.d/backports.list \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -t bookworm-backports \
+      far2l=2.6.5~beta+ds-3~bpo12+1 far2l-wx=2.6.5~beta+ds-3~bpo12+1 \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      tmux python3 python3-pil procps desktop-file-utils fontconfig fonts-dejavu-core \
+      xvfb xdotool x11-utils x11-apps imagemagick \
+ && rm -rf /var/lib/apt/lists/*
+RUN useradd -m tester
+USER tester
+WORKDIR /home/tester

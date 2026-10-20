@@ -1,0 +1,6 @@
+{
+  "version_prefix": "2.6.5",
+  "profile": "far2l-2.6",
+  "package_query": "dpkg-query -W -f='${Version}' far2l",
+  "package_version": "2.6.5~beta+ds-3~bpo12+1"
+}

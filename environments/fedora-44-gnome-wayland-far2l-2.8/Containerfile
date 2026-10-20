@@ -1,0 +1,12 @@
+# Тестовая среда: Fedora 44 + far2l 2.8 из COPR polter/far2l (как у пользователя) + инструменты снимков.
+# Используется tools/e2e.py. Графическое окно far2l рисуется в Xvfb (модуль wx тот же, что под Wayland).
+# Версия far2l закреплена (как в expect.json). Если COPR её больше не отдаёт, сборка упадёт:
+# тогда уберите закрепление, прогоните tools/e2e.py и обновите expect.json, README и tested в профиле.
+FROM registry.fedoraproject.org/fedora:44
+RUN dnf -y install dnf5-plugins && dnf -y copr enable polter/far2l \
+ && dnf -y install far2l-2.8.0-4.git1b5e155.fc44 tmux python3 python3-pillow procps-ng desktop-file-utils fontconfig dejavu-sans-mono-fonts \
+      xorg-x11-server-Xvfb xdotool xwd ImageMagick xprop xwininfo \
+ && dnf clean all
+RUN useradd -m tester
+USER tester
+WORKDIR /home/tester

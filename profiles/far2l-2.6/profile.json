@@ -1,0 +1,14 @@
+{
+  "name": "far2l-2.6",
+  "min_version": "2.6.4",
+  "max_version": "2.8.0",
+  "uses_themes": false,
+  "requires": [
+    "settings/farcolors.ini"
+  ],
+  "keys_file": "keys.txt",
+  "summary": "тем нет: цвета интерфейса в settings/farcolors.ini",
+  "tested": [
+    "2.6.5-beta — Debian 12, пакет bookworm-backports 2.6.5~beta+ds-3~bpo12+1 (графический режим wx и TTY)"
+  ]
+}

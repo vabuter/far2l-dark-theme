@@ -6,7 +6,7 @@
 
   <assign name="def:Number" fore="#dc8add"/>
   <assign name="def:NumberDec" fore="#dc8add"/>
-  <assign name="def:NumHex" fore="#dc8add"/>
+  <assign name="def:NumberHex" fore="#dc8add"/>
   <assign name="def:NumberBin" fore="#dc8add"/>
   <assign name="def:NumberOct" fore="#dc8add"/>
   <assign name="def:NumberFloat" fore="#dc8add"/>
@@ -42,7 +42,7 @@
   <assign name="def:Identifier" fore="#99c1f1"/>
 
   <assign name="def:Directive" fore="#f66151"/>
-  <assign name="def:Param" fore="#cdab8f"/>
+  <assign name="def:Parameter" fore="#cdab8f"/>
 
   <assign name="def:Tag" fore="#99c1f1"/>
   <assign name="def:OpenTag" fore="#62a0ea"/>
