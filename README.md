@@ -4,6 +4,8 @@
 в цветах GNOME (libadwaita dark), плюс иконки приложения в том же стиле.
 Один установщик для нескольких версий far2l и дистрибутивов: версию он определяет сам.
 
+**Документация со снимками:** https://vabuter.github.io/far2l-dark-theme/
+
 ![Debian 12, far2l 2.6.5, графический режим](environments/debian-12-gnome-x11-far2l-2.6/screenshots/panels.png)
 
 | Меню (F9) | Предупреждение |

@@ -230,7 +230,12 @@ far2l 2.6 стирает так пустые места редактора. На
 - Иконки: GNOME сопоставляет окно far2l с `far2l.desktop` по классу окна (X11) или app_id (Wayland),
   поэтому достаточно переопределить `.desktop` в `~/.local/share/applications` с новым `Icon=`.
 - После изменения цветов: `python3 install.py --export theme`, `python3 -m unittest discover -s tests`,
-  `python3 tools/e2e.py --screenshots` (при успехе обновит снимки в `environments/*/screenshots/`).
+  `python3 tools/e2e.py --screenshots` (при успехе обновит снимки в `environments/*/screenshots/`
+  и их копии для сайта в `docs/img/`).
+- Сайт-документация — один файл `docs/index.html` (стили и скрипт внутри, внешних зависимостей нет),
+  картинки — в `docs/img/` (GitHub Pages публикует только `docs/`). Иконки `docs/img/*.svg` — копии
+  `icons/*.svg`: после изменения иконок скопируйте их туда. Новое окружение на странице появится,
+  только если добавить его снимки `docs/img/<дистрибутив>-<экран>.png` и вкладку в `index.html`.
 - Снимки в графическом режиме нажимают клавиши через XTEST по коду клавиши: `xdotool key`
   с новыми xkeyboard-config добавляет к F-клавишам Alt, и far2l 2.8 видит Alt+F9 вместо F9.
 
@@ -254,5 +259,5 @@ tools/snapshot.py           снимки far2l (Xvfb или tmux) со свод�
 tools/shotcheck.py          проверка цветов на снимках
 tools/e2e.py                сквозная проверка во всех окружениях в контейнерах
 tests/                      модульные тесты
-docs/                       картинки для README
+docs/                       сайт-документация (GitHub Pages: ветка main, каталог /docs) и картинки для README
 ```

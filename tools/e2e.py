@@ -9,7 +9,7 @@
 
   python3 tools/e2e.py                                   # все окружения
   python3 tools/e2e.py debian-12-gnome-x11-far2l-2.6     # одно окружение
-  python3 tools/e2e.py --screenshots                     # при успехе обновить environments/*/screenshots/
+  python3 tools/e2e.py --screenshots                     # при успехе обновить снимки в environments/*/screenshots/ и docs/img/
 """
 import argparse
 import io
@@ -23,6 +23,7 @@ import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENV_DIR = os.path.join(ROOT, "environments")
+DOCS_IMG = os.path.join(ROOT, "docs", "img")
 COPY = ["install.py", "far2l_theme", "profiles", "theme", "icons", "tools"]
 SCREENS = ("panels", "menu", "dialog", "warning", "editor")
 
@@ -121,6 +122,12 @@ def run_env(eng, env, out_root, screenshots):
             for n in SCREENS:
                 shutil.copyfile(os.path.join(gui, f"{n}.png"), os.path.join(dst, f"{n}.png"))
             print(f"  снимки сохранены в {os.path.relpath(dst, ROOT)}")
+            # Страница документации (docs/) берёт копии снимков: docs/img/<дистрибутив>-<экран>.png.
+            site = [os.path.join(DOCS_IMG, f"{env.split('-')[0]}-{n}.png") for n in SCREENS]
+            if all(os.path.isfile(p) for p in site):
+                for n, p in zip(SCREENS, site):
+                    shutil.copyfile(os.path.join(gui, f"{n}.png"), p)
+                print(f"  и в {os.path.relpath(DOCS_IMG, ROOT)}")
         else:
             print("  снимки в репозитории НЕ обновлены: есть ошибки")
     return results
@@ -130,7 +137,7 @@ def main():
     ap = argparse.ArgumentParser(description="Сквозная проверка темы в контейнерах")
     ap.add_argument("envs", nargs="*", help="окружения (каталоги в environments/), по умолчанию все")
     ap.add_argument("--out", default=None, help="куда сложить снимки (по умолчанию новый временный каталог)")
-    ap.add_argument("--screenshots", action="store_true", help="при успехе обновить environments/*/screenshots/")
+    ap.add_argument("--screenshots", action="store_true", help="при успехе обновить снимки в environments/*/screenshots/ и docs/img/")
     a = ap.parse_args()
     envs = a.envs or sorted(d for d in os.listdir(ENV_DIR) if os.path.isfile(os.path.join(ENV_DIR, d, "Containerfile")))
     out_root = a.out or tempfile.mkdtemp(prefix="far2l-dark-theme-e2e-")

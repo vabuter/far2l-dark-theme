@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GNOME Graphite — тёмная тема для far2l</title>
+<meta name="description" content="Очень тёмная графитовая тема для файлового менеджера far2l в цветах GNOME (libadwaita dark): интерфейс, палитра, подсветка синтаксиса и иконки. Один установщик для far2l 2.6.5+ в Debian, Fedora и других дистрибутивах.">
+<meta name="theme-color" content="#2e2e32">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GNOME Graphite — тёмная тема для far2l">
+<meta property="og:description" content="Графитовая тема в цветах GNOME для far2l: интерфейс, палитра, подсветка синтаксиса и иконки. Установка одной командой.">
+<meta property="og:image" content="https://vabuter.github.io/far2l-dark-theme/img/debian-panels.png">
+<link rel="icon" type="image/svg+xml" href="img/far2l-graphite.svg">
+<style>
+:root {
+  --bg: #1d1d20;
+  --bg-deep: #18181b;
+  --surf: #2e2e32;
+  --card: #26262a;
+  --dlg: #36363a;
+  --edit: #4a4a4e;
+  --line: #3a3a40;
+  --line-strong: #55555c;
+  --text: #deddda;
+  --bright: #ffffff;
+  --dim: #9a9996;
+  --acc: #1c71d8;
+  --acc-fg: #78aeed;
+  --cursor: #254165;
+  --yel: #f8e45c;
+  --green: #8ff0a4;
+  --orange: #ffa348;
+  --warn: #a51d2d;
+  --radius: 12px;
+  --radius-s: 8px;
+  --sans: "Adwaita Sans", "Cantarell", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "Adwaita Mono", "Source Code Pro", "JetBrains Mono", "DejaVu Sans Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--acc-fg); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, kbd, pre { font-family: var(--mono); }
+code { font-size: .92em; background: var(--surf); padding: .1em .4em; border-radius: 6px; color: var(--bright); }
+kbd {
+  font-size: .85em; padding: .1em .45em; border-radius: 6px;
+  background: var(--dlg); border: 1px solid var(--line-strong); border-bottom-width: 2px; color: var(--bright);
+}
+img { max-width: 100%; display: block; }
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* Шапка — как headerbar GNOME */
+.headerbar {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(46, 46, 50, .92);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow .2s;
+}
+.headerbar.scrolled { box-shadow: 0 2px 12px rgba(0, 0, 0, .35); }
+.headerbar .wrap { display: flex; align-items: center; gap: 16px; height: 56px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--bright); font-weight: 700; white-space: nowrap; }
+.brand:hover { text-decoration: none; }
+.brand img { width: 30px; height: 30px; }
+.nav { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  color: var(--text); padding: 6px 12px; border-radius: var(--radius-s); font-size: 15px; white-space: nowrap;
+}
+.nav a:hover { background: rgba(255, 255, 255, .07); text-decoration: none; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: var(--radius-s); font-weight: 700; font-size: 15px;
+  border: 0; cursor: pointer; font-family: inherit; white-space: nowrap;
+}
+.btn:hover { text-decoration: none; filter: brightness(1.1); }
+.btn-primary { background: var(--acc); color: #fff; }
+.btn-flat { background: rgba(255, 255, 255, .08); color: var(--bright); }
+.btn svg { width: 18px; height: 18px; fill: currentColor; }
+.headerbar .btn { padding: 7px 14px; }
+
+/* Первый экран */
+.hero { padding: 64px 0 40px; }
+.hero-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+.eyebrow { color: var(--acc-fg); font-weight: 700; letter-spacing: .02em; margin: 0 0 8px; }
+h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.05; margin: 0 0 18px; color: var(--bright); letter-spacing: -.02em; }
+.lead { font-size: 19px; color: var(--text); max-width: 760px; margin: 0 0 26px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.chips li { background: var(--surf); border: 1px solid var(--line); color: var(--text); padding: 4px 12px; border-radius: 999px; font-size: 14px; }
+
+/* Окно с far2l */
+.window {
+  border-radius: var(--radius); overflow: hidden; background: var(--bg-deep);
+  border: 1px solid #000; box-shadow: 0 0 0 1px rgba(255, 255, 255, .06), 0 24px 60px rgba(0, 0, 0, .55);
+}
+.window-title {
+  display: flex; align-items: center; height: 38px; padding: 0 12px;
+  background: var(--surf); border-bottom: 1px solid #000; color: var(--dim); font-size: 13px; font-weight: 700;
+}
+.window-title span { flex: 1; text-align: center; }
+.window-title i { width: 14px; height: 14px; border-radius: 50%; background: rgba(255, 255, 255, .12); display: block; }
+.window button.shot { all: unset; display: block; cursor: zoom-in; width: 100%; }
+.window button.shot:focus-visible { outline: 2px solid var(--acc-fg); outline-offset: -2px; }
+
+/* Разделы */
+section.block { padding: 56px 0; border-top: 1px solid var(--line); }
+h2 { font-size: clamp(26px, 3.6vw, 34px); line-height: 1.2; margin: 0 0 10px; color: var(--bright); letter-spacing: -.01em; }
+h3 { font-size: 19px; margin: 0 0 8px; color: var(--bright); }
+.section-lead { color: var(--dim); font-size: 17px; margin: 0 0 28px; max-width: 760px; }
+p { margin: 0 0 14px; }
+
+/* Переключатель (как у GNOME) */
+.segmented { display: inline-flex; background: var(--surf); padding: 3px; border-radius: 10px; margin-bottom: 22px; gap: 2px; flex-wrap: wrap; }
+.segmented button {
+  font: inherit; font-size: 15px; color: var(--text); background: transparent; border: 0;
+  padding: 7px 16px; border-radius: 8px; cursor: pointer;
+}
+.segmented button[aria-selected="true"] { background: var(--dlg); color: var(--bright); font-weight: 700; box-shadow: 0 1px 3px rgba(0, 0, 0, .4); }
+.segmented button:focus-visible { outline: 2px solid var(--acc-fg); outline-offset: 1px; }
+.js .tabpanel[hidden] { display: none; }
+
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.gallery figure { margin: 0; }
+.gallery figure.wide { grid-column: 1 / -1; }
+.gallery figcaption { color: var(--dim); font-size: 14px; margin-top: 8px; }
+.shot-frame { border-radius: var(--radius-s); overflow: hidden; border: 1px solid #000; box-shadow: 0 8px 24px rgba(0, 0, 0, .4); }
+.shot-frame button { all: unset; display: block; cursor: zoom-in; width: 100%; }
+.shot-frame button:focus-visible { outline: 2px solid var(--acc-fg); outline-offset: -2px; }
+
+/* Палитра */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.swatch { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-s); overflow: hidden; }
+.swatch .chip { height: 64px; border-bottom: 1px solid rgba(0, 0, 0, .5); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07); }
+.swatch div.meta { padding: 10px 12px; }
+.swatch b { display: block; color: var(--bright); font-size: 15px; }
+.swatch code { background: none; padding: 0; color: var(--dim); font-size: 13px; }
+.swatch span { display: block; color: var(--dim); font-size: 13px; line-height: 1.4; margin-top: 4px; }
+.icons-row { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.icons-row .pair { display: flex; gap: 18px; }
+.icons-row img { width: 96px; height: 96px; }
+
+/* Карточки */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+.card p:last-child, .card ul:last-child { margin-bottom: 0; }
+.card ul { margin: 0 0 14px; padding-left: 20px; }
+.card li { margin-bottom: 4px; }
+.status { display: inline-block; background: rgba(143, 240, 164, .12); color: var(--green); border-radius: 999px; padding: 2px 10px; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0 0 14px; font-size: 15px; }
+.kv dt { color: var(--dim); }
+.kv dd { margin: 0; color: var(--text); }
+
+/* Шаги установки */
+.steps { list-style: none; padding: 0; margin: 0 0 28px; counter-reset: step; display: grid; gap: 14px; }
+.steps > li { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 20px 20px 70px; counter-increment: step; }
+.steps > li::before {
+  content: counter(step); position: absolute; left: 20px; top: 18px;
+  width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--acc); color: #fff; font-weight: 700;
+}
+.steps h3 { margin-bottom: 6px; }
+.steps p { color: var(--text); }
+
+/* Блоки кода */
+.code { position: relative; background: var(--bg-deep); border: 1px solid var(--line); border-radius: var(--radius-s); margin: 10px 0 0; }
+.code pre { margin: 0; padding: 14px 54px 14px 16px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14.5px; line-height: 1.55; color: var(--bright); }
+.code pre .c { color: #8b8a90; }
+.code pre .p { color: var(--acc-fg); user-select: none; }
+.copy {
+  position: absolute; top: 8px; right: 8px; width: 34px; height: 34px; border-radius: 8px;
+  border: 0; background: var(--surf); color: var(--text); cursor: pointer; display: grid; place-items: center;
+}
+.copy:hover { background: var(--dlg); color: var(--bright); }
+.copy:focus-visible { outline: 2px solid var(--acc-fg); }
+.copy svg { width: 18px; height: 18px; fill: currentColor; }
+.copy.done { color: var(--green); }
+
+.callout { display: flex; gap: 14px; background: rgba(28, 113, 216, .12); border: 1px solid rgba(120, 174, 237, .35); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 18px; }
+.callout.warn { background: rgba(165, 29, 45, .14); border-color: rgba(246, 97, 81, .35); }
+.callout svg { flex: none; width: 22px; height: 22px; fill: var(--acc-fg); margin-top: 2px; }
+.callout.warn svg { fill: #f66151; }
+.callout p:last-child { margin: 0; }
+
+/* Таблицы */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 640px; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--dim); font-weight: 700; font-size: 14px; background: var(--surf); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { color: var(--bright); font-weight: 700; white-space: nowrap; }
+
+/* Вопросы */
+details { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-s); margin-bottom: 10px; }
+summary { cursor: pointer; padding: 14px 18px; font-weight: 700; color: var(--bright); list-style: none; display: flex; align-items: center; gap: 12px; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: ""; width: 8px; height: 8px; border-right: 2px solid var(--dim); border-bottom: 2px solid var(--dim); transform: rotate(-45deg); transition: transform .15s; flex: none; }
+details[open] summary::before { transform: rotate(45deg); }
+summary:focus-visible { outline: 2px solid var(--acc-fg); outline-offset: -2px; border-radius: var(--radius-s); }
+details .answer { padding: 0 18px 16px 38px; }
+
+/* Увеличенный снимок */
+dialog.lightbox { border: 0; padding: 0; background: transparent; max-width: min(1400px, 96vw); }
+dialog.lightbox::backdrop { background: rgba(0, 0, 0, .82); }
+dialog.lightbox img { border-radius: var(--radius-s); box-shadow: 0 20px 60px rgba(0, 0, 0, .6); max-height: 86vh; width: auto; margin: 0 auto; }
+dialog.lightbox p { color: var(--text); text-align: center; margin: 12px 0 0; }
+dialog.lightbox form { position: fixed; top: 14px; right: 14px; margin: 0; }
+dialog.lightbox .close { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--dlg); color: var(--bright); font-size: 22px; cursor: pointer; }
+
+footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--dim); font-size: 15px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; justify-content: space-between; }
+footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+
+@media (min-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 1000px) {
+  .nav { display: none; }
+  .headerbar .btn { margin-left: auto; }
+}
+@media (max-width: 760px) {
+  .wrap { padding: 0 16px; }
+  .headerbar .gh-label { display: none; }
+  .headerbar .btn { margin-left: auto; }
+  .hero { padding: 40px 0 28px; }
+  .lead { font-size: 17px; }
+  .gallery { grid-template-columns: 1fr; }
+  .steps > li { padding: 18px 16px 18px 58px; }
+  .steps > li::before { left: 14px; }
+  .icons-row { grid-template-columns: 1fr; }
+  section.block { padding: 44px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="headerbar" id="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/far2l-graphite.svg" alt="">far2l · GNOME Graphite</a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#look">Как выглядит</a>
+      <a href="#install">Установка</a>
+      <a href="#agents">Через ИИ-агента</a>
+      <a href="#changes">Что меняется</a>
+      <a href="#rollback">Откат</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn btn-flat" href="https://github.com/vabuter/far2l-dark-theme">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      <span class="gh-label">GitHub</span>
+    </a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Тема для файлового менеджера far2l</p>
+      <h1>GNOME Graphite</h1>
+      <p class="lead">Очень тёмная графитовая тема в цветах GNOME (libadwaita dark): панели, меню, диалоги,
+        редактор с подсветкой синтаксиса и иконки приложения. Один установщик сам определяет версию far2l
+        и делает резервную копию настроек.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#install">Установить</a>
+        <a class="btn btn-flat" href="https://github.com/vabuter/far2l-dark-theme">Исходники на GitHub</a>
+      </div>
+      <ul class="chips" aria-label="Коротко">
+        <li>far2l 2.6.5 и новее</li>
+        <li>Debian 12 · Fedora 44</li>
+        <li>Окно и терминал</li>
+        <li>Без root</li>
+        <li>Откат одной командой</li>
+      </ul>
+    </div>
+    <div class="window">
+      <div class="window-title"><i></i><span>far2l</span><i></i></div>
+      <button class="shot" type="button" data-src="img/debian-panels.png" data-caption="Панели: Debian 12, far2l 2.6.5, графический режим">
+        <img src="img/debian-panels.png" width="1200" height="684" alt="Две панели far2l в графитовой теме: синий заголовок активной панели, курсор, цветные имена файлов">
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="look">
+  <div class="wrap">
+    <h2>Как выглядит</h2>
+    <p class="section-lead">Настоящие снимки окна far2l после установки темы на чистые настройки. Нажмите на снимок, чтобы увеличить.</p>
+    <div class="segmented" role="tablist" aria-label="Окружение">
+      <button type="button" role="tab" id="tab-debian" aria-controls="panel-debian" aria-selected="true">Debian 12 · far2l 2.6.5</button>
+      <button type="button" role="tab" id="tab-fedora" aria-controls="panel-fedora" aria-selected="false">Fedora 44 · far2l 2.8</button>
+    </div>
+    <div class="tabpanel gallery" id="panel-debian" role="tabpanel" aria-labelledby="tab-debian" data-env="debian"></div>
+    <div class="tabpanel gallery" id="panel-fedora" role="tabpanel" aria-labelledby="tab-fedora" data-env="fedora"></div>
+    <noscript>
+      <div class="gallery">
+        <figure class="wide"><div class="shot-frame"><img src="img/debian-panels.png" alt="Панели"></div><figcaption>Панели</figcaption></figure>
+        <figure><div class="shot-frame"><img src="img/debian-menu.png" alt="Меню"></div><figcaption>Меню (F9)</figcaption></figure>
+        <figure><div class="shot-frame"><img src="img/debian-dialog.png" alt="Диалог"></div><figcaption>Диалог (F7)</figcaption></figure>
+        <figure><div class="shot-frame"><img src="img/debian-warning.png" alt="Предупреждение"></div><figcaption>Предупреждение</figcaption></figure>
+        <figure><div class="shot-frame"><img src="img/debian-editor.png" alt="Редактор"></div><figcaption>Редактор</figcaption></figure>
+      </div>
+    </noscript>
+  </div>
+</section>
+
+<section class="block" id="palette">
+  <div class="wrap">
+    <h2>Палитра</h2>
+    <p class="section-lead">Цвета взяты из палитры GNOME. Фон панелей — тот же, что у списка файлов в «Файлах» GNOME в тёмном режиме.</p>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#1d1d20"></div><div class="meta"><b>Фон</b><code>#1d1d20</code><span>панели, редактор, командная строка</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#2e2e32"></div><div class="meta"><b>Шапки</b><code>#2e2e32</code><span>верхнее меню, строки статуса, F-клавиши</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#36363a"></div><div class="meta"><b>Диалоги и меню</b><code>#36363a</code><span>окна поверх панелей, справка</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#4a4a4e"></div><div class="meta"><b>Поля ввода</b><code>#4a4a4e</code><span>строки ввода в диалогах</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#1c71d8"></div><div class="meta"><b>Акцент</b><code>#1c71d8</code><span>активная панель, выбранный пункт</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#254165"></div><div class="meta"><b>Курсор</b><code>#254165</code><span>курсор в панелях, выделение в редакторе</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#78aeed"></div><div class="meta"><b>Акцентный текст</b><code>#78aeed</code><span>горячие клавиши, заголовки колонок</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#deddda"></div><div class="meta"><b>Текст</b><code>#deddda</code><span>обычный текст</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#f8e45c"></div><div class="meta"><b>Отмеченные</b><code>#f8e45c</code><span>отмеченные файлы</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#a51d2d"></div><div class="meta"><b>Предупреждение</b><code>#a51d2d</code><span>диалоги ошибок и удаления</span></div></div>
+    </div>
+    <div class="icons-row">
+      <div class="pair">
+        <img src="img/far2l-graphite.svg" alt="Иконка far2l: графитовое окно с двумя панелями">
+        <img src="img/far2ledit-graphite.svg" alt="Иконка редактора far2l: окно с кодом и жёлтым карандашом">
+      </div>
+      <div>
+        <h3>Иконки в том же стиле</h3>
+        <p>Для far2l и редактора far2l, включая ярлыки «(Terminal)» в Debian. Ставятся только для текущего
+          пользователя, в <code>~/.local/share</code>; системные файлы не меняются.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="install">
+  <div class="wrap">
+    <h2>Установка</h2>
+    <p class="section-lead">Нужны far2l 2.6.5 или новее и Python 3.8+. Желателен tmux: если far2l ещё ни разу
+      не запускался, установщик сам запустит его в tmux, чтобы появились штатные настройки. Права root не нужны.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Скачайте тему</h3>
+        <div class="code"><pre>git clone https://github.com/vabuter/far2l-dark-theme.git</pre></div>
+        <div class="code"><pre>cd far2l-dark-theme</pre></div>
+      </li>
+      <li>
+        <h3>Закройте far2l</h3>
+        <p>Нажмите <kbd>F10</kbd>. При сохранении настроек far2l перезаписал бы установленную тему, поэтому
+          установщик не начнёт работу, пока far2l открыт.</p>
+      </li>
+      <li>
+        <h3>Установите</h3>
+        <div class="code"><pre>python3 install.py</pre></div>
+        <p style="margin-top:12px">Установщик сделает резервную копию, определит версию far2l и запишет тему
+          туда, где эта версия её читает. В конце он напечатает команду отката.</p>
+      </li>
+      <li>
+        <h3>Проверьте</h3>
+        <div class="code"><pre>python3 install.py --verify</pre></div>
+        <p style="margin-top:12px">Последняя строка должна быть <code>ИТОГ: всё установлено</code>. Запустите far2l.</p>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"/></svg>
+      <div><p>Посмотреть, что найдёт установщик, ничего не меняя: <code>python3 install.py --detect</code>.
+        Он покажет путь к far2l, версию, выбранный профиль и каталог настроек.</p></div>
+    </div>
+
+    <h3 style="margin-top:28px">Если far2l ещё не установлен</h3>
+    <div class="segmented" role="tablist" aria-label="Дистрибутив">
+      <button type="button" role="tab" id="tab-get-debian" aria-controls="get-debian" aria-selected="true">Debian 12</button>
+      <button type="button" role="tab" id="tab-get-fedora" aria-controls="get-fedora" aria-selected="false">Fedora 44</button>
+    </div>
+    <div class="tabpanel" id="get-debian" role="tabpanel" aria-labelledby="tab-get-debian">
+      <p>В основном репозитории Debian 12 far2l нет, версия 2.6.5 есть в <code>bookworm-backports</code>.
+        Графический режим — пакет <code>far2l-wx</code>.</p>
+      <div class="code"><pre>echo 'deb http://deb.debian.org/debian bookworm-backports main' | sudo tee /etc/apt/sources.list.d/backports.list</pre></div>
+      <div class="code"><pre>sudo apt update</pre></div>
+      <div class="code"><pre>sudo apt install -t bookworm-backports far2l far2l-wx tmux</pre></div>
+    </div>
+    <div class="tabpanel" id="get-fedora" role="tabpanel" aria-labelledby="tab-get-fedora">
+      <p>В репозиториях Fedora 44 far2l нет, используется COPR <code>polter/far2l</code>.</p>
+      <div class="code"><pre>sudo dnf copr enable polter/far2l</pre></div>
+      <div class="code"><pre>sudo dnf install far2l tmux</pre></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="agents">
+  <div class="wrap">
+    <h2>Через ИИ-агента</h2>
+    <p class="section-lead">В репозитории есть <a href="https://github.com/vabuter/far2l-dark-theme/blob/main/AGENTS.md">AGENTS.md</a> —
+      пошаговая инструкция для агентов: какие проверки сделать, чего нельзя делать, как читать вывод
+      установщика и что сказать пользователю. Claude Code подхватывает её сам через <code>CLAUDE.md</code>.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Что сказать агенту</h3>
+        <p>Склонируйте репозиторий, откройте агента в его каталоге и попросите:</p>
+        <div class="code"><pre>Установи тему far2l по AGENTS.md из этого каталога</pre></div>
+      </div>
+      <div class="card">
+        <h3>Что агент сделает</h3>
+        <ul>
+          <li>определит версию и профиль (<code>--detect</code>), не запуская far2l;</li>
+          <li>попросит закрыть far2l, если он открыт, — сам его не завершит;</li>
+          <li>поставит тему и проверит её (<code>--verify</code>), при желании — снимками экрана;</li>
+          <li>назовёт резервную копию и команду отката.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="changes">
+  <div class="wrap">
+    <h2>Что меняется</h2>
+    <p class="section-lead">Всё пишется в каталог настроек far2l (обычно <code>~/.config/far2l</code>)
+      и в <code>~/.local/share</code>. Системные файлы в <code>/usr</code> не меняются.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Часть</th><th>Что меняется</th><th>Файл в репозитории</th></tr></thead>
+        <tbody>
+          <tr><td>Цвета интерфейса</td><td>панели, меню, диалоги, редактор, просмотрщик, справка</td><td><code>theme/farcolors.ini</code></td></tr>
+          <tr><td>Базовая палитра</td><td>16 цветов: типы файлов, вывод команд во встроенном терминале</td><td><code>theme/palette.ini</code></td></tr>
+          <tr><td>Раскраска файлов</td><td>имя под курсором того же цвета, что и без курсора</td><td>—</td></tr>
+          <tr><td>Подсветка синтаксиса</td><td>схема Colorer <code>graphite</code> для встроенного редактора</td><td><code>theme/graphite.hrd</code></td></tr>
+          <tr><td>Иконки</td><td>far2l и редактор far2l, включая ярлыки «(Terminal)»</td><td><code>icons/*.svg</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cards" style="margin-top:16px">
+      <div class="card">
+        <h3>far2l 2.8 и новее</h3>
+        <p>Пользовательская тема <code>settings/themes/GNOME Graphite/farcolors.ini</code>, выбранная
+          в <code>[Colors] CurrentTheme</code>. Её видно и можно сменить в far2l: <kbd>F9</kbd> → Параметры → Цвета.</p>
+      </div>
+      <div class="card">
+        <h3>far2l 2.6.5 – 2.7</h3>
+        <p>Тем в far2l ещё нет, цвета пишутся в <code>settings/farcolors.ini</code>. Тема тоже записывается —
+          она подхватится сама после обновления far2l до 2.8.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="environments">
+  <div class="wrap">
+    <h2>Проверенные окружения</h2>
+    <p class="section-lead">В контейнере каждого окружения тема ставится на чистый профиль, проверяется,
+      снимается в графическом и терминальном режиме, ставится повторно и откатывается — 38 проверок.
+      Другие дистрибутивы с far2l 2.6.5+ тоже должны работать: пути и ярлыки установщик находит сам.</p>
+    <div class="cards">
+      <div class="card">
+        <span class="status">проверено</span>
+        <h3>Debian 12 · GNOME · X11</h3>
+        <dl class="kv">
+          <dt>far2l</dt><dd>2.6.5 из <code>bookworm-backports</code></dd>
+          <dt>Пакет</dt><dd><code>2.6.5~beta+ds-3~bpo12+1</code></dd>
+          <dt>Профиль</dt><dd>far2l-2.6</dd>
+        </dl>
+        <p><a href="https://github.com/vabuter/far2l-dark-theme/blob/main/environments/debian-12-gnome-x11-far2l-2.6/README.md">Особенности окружения →</a></p>
+      </div>
+      <div class="card">
+        <span class="status">проверено</span>
+        <h3>Fedora 44 · GNOME · Wayland</h3>
+        <dl class="kv">
+          <dt>far2l</dt><dd>2.8.0 из COPR <code>polter/far2l</code></dd>
+          <dt>Пакет</dt><dd><code>2.8.0-4.git1b5e155.fc44</code></dd>
+          <dt>Профиль</dt><dd>far2l-2.8</dd>
+        </dl>
+        <p><a href="https://github.com/vabuter/far2l-dark-theme/blob/main/environments/fedora-44-gnome-wayland-far2l-2.8/README.md">Особенности окружения →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="rollback">
+  <div class="wrap">
+    <h2>Откат</h2>
+    <p class="section-lead">Перед каждой установкой делается резервная копия настроек и пользовательских иконок.
+      В конце установщик называет копию для отката строкой <code>откат к виду до темы</code>.</p>
+    <div class="code"><pre>python3 install.py --restore ~/.config/far2l-backup-ГГГГММДД-ЧЧММСС.tar.gz</pre></div>
+    <div class="cards" style="margin-top:16px">
+      <div class="card">
+        <h3>Ничего не теряется</h3>
+        <p>Текущие настройки не удаляются, а откладываются в <code>~/.config/far2l.replaced-…</code>.
+          Если настройки лежат в dotfiles и подключены ссылками, откат возвращает содержимое их целей,
+          а ссылки остаются ссылками.</p>
+      </div>
+      <div class="card">
+        <h3>Какую копию брать</h3>
+        <p>Каждый запуск установщика делает новую копию, и копии повторных запусков уже содержат тему.
+          Для отката берите ту, что назвал установщик: это последняя копия без темы.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="customize">
+  <div class="wrap">
+    <h2>Свои цвета и проверка</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Поменять цвета</h3>
+        <p>Цвета интерфейса и палитра — константы в <code>far2l_theme/colors.py</code>, цвета подсветки
+          синтаксиса — в <code>theme/graphite.hrd</code>. После правки запустите <code>python3 install.py</code> ещё раз,
+          а для обновления готовых файлов в репозитории — <code>python3 install.py --export theme</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Посмотреть без экрана</h3>
+        <p><code>tools/snapshot.py</code> снимает far2l на копии настроек — окно в Xvfb или терминал в tmux,
+          <code>tools/shotcheck.py</code> проверяет цвета на снимках.</p>
+        <div class="code"><pre>python3 tools/snapshot.py --out /tmp/far2l-shots</pre></div>
+      </div>
+      <div class="card">
+        <h3>Проверить всё целиком</h3>
+        <p>Модульные тесты и сквозная проверка во всех окружениях в контейнерах (нужен podman или docker).</p>
+        <div class="code"><pre>python3 -m unittest discover -s tests</pre></div>
+        <div class="code"><pre>python3 tools/e2e.py</pre></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq">
+  <div class="wrap">
+    <h2>Вопросы и проблемы</h2>
+    <p class="section-lead">Полная таблица — в разделе «Решение проблем» файла
+      <a href="https://github.com/vabuter/far2l-dark-theme/blob/main/AGENTS.md">AGENTS.md</a>.</p>
+
+    <details>
+      <summary>Установщик пишет «far2l запущен», а окна нет</summary>
+      <div class="answer"><p>far2l мог остаться в фоне после закрытия терминала. Запустите far2l в терминале —
+        он предложит вернуть фоновый сеанс, — и выйдите по <kbd>F10</kbd>. Установщик никогда не завершает far2l сам:
+        в редакторе могут быть несохранённые файлы.</p></div>
+    </details>
+    <details>
+      <summary>Как узнать версию far2l? <code>far2l --version</code> открыл окно</summary>
+      <div class="answer"><p>В far2l 2.6 ключа <code>--version</code> нет — команда запускает сам far2l. Версию показывает
+        первая строка <code>far2l -h</code> или <code>python3 install.py --detect</code>.</p></div>
+    </details>
+    <details>
+      <summary>far2l остался синим</summary>
+      <div class="answer"><p>Скорее всего, far2l был открыт во время установки или настройки сохранили по
+        <kbd>Shift</kbd>+<kbd>F9</kbd> после неё. Закройте far2l и запустите <code>python3 install.py</code> ещё раз.</p></div>
+    </details>
+    <details>
+      <summary>Внизу панели красная строка (far2l 2.6)</summary>
+      <div class="answer"><p>В far2l 2.6 цвет этой строки называется <code>Panel.Info.Tota</code> (опечатка в самом far2l),
+        а отсутствующий цвет он рисует красным. Установщик всегда записывает это имя; красная строка значит,
+        что far2l сохранил настройки после загрузки файла без него, например от старой версии темы.
+        Закройте far2l и установите заново.</p></div>
+    </details>
+    <details>
+      <summary>Редактор синий, а всё остальное тёмное</summary>
+      <div class="answer"><p>Подсветка синтаксиса (Colorer) не нашла схему <code>graphite</code> и взяла стандартную.
+        Запустите <code>python3 install.py --verify</code> и посмотрите строки Colorer. Если установщик пишет
+        «Colorer выключен (Enabled=0)», включите его: <code>python3 install.py --enable-colorer</code>.</p></div>
+    </details>
+    <details>
+      <summary>Иконка в доке не сменилась</summary>
+      <div class="answer"><p>GNOME может держать старую иконку до повторного входа в сеанс. В X11 достаточно
+        <kbd>Alt</kbd>+<kbd>F2</kbd>, ввести <code>r</code> и нажать <kbd>Enter</kbd>. На macOS иконки не ставятся.</p></div>
+    </details>
+    <details>
+      <summary>Установщик остановился с кодом 3</summary>
+      <div class="answer"><p>Сборка far2l старше 2.6.5 (или снимок 2.6.4 до декабря 2024) хранит цвета иначе, и тема на неё
+        не встанет. Обновите far2l.</p></div>
+    </details>
+    <details>
+      <summary>far2l ещё ни разу не запускался, а tmux нет</summary>
+      <div class="answer"><p>Запустите far2l один раз и выйдите по <kbd>F10</kbd> — он создаст штатные настройки, —
+        затем снова <code>python3 install.py</code>. С tmux установщик делает это сам.</p></div>
+    </details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>GNOME Graphite — тема для <a href="https://github.com/elfmz/far2l">far2l</a> в цветах GNOME (libadwaita dark).</span>
+    <nav aria-label="Ссылки">
+      <a href="https://github.com/vabuter/far2l-dark-theme">Репозиторий</a>
+      <a href="https://github.com/vabuter/far2l-dark-theme/blob/main/AGENTS.md">AGENTS.md</a>
+      <a href="https://github.com/vabuter/far2l-dark-theme/issues">Сообщить о проблеме</a>
+    </nav>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Увеличенный снимок">
+  <form method="dialog"><button class="close" aria-label="Закрыть">×</button></form>
+  <img alt="">
+  <p></p>
+</dialog>
+
+<script>
+(function () {
+  document.documentElement.classList.add("js");
+
+  // Галерея: одинаковый набор снимков для каждого окружения.
+  var shots = [
+    ["panels", "Панели: курсор, отмеченные файлы, цвета типов файлов", true],
+    ["menu", "Меню (F9)"],
+    ["dialog", "Диалог (F7)"],
+    ["warning", "Предупреждение: ошибка «папка уже существует»"],
+    ["editor", "Редактор с подсветкой синтаксиса (Colorer, схема graphite)"]
+  ];
+  var envName = { debian: "Debian 12, far2l 2.6.5", fedora: "Fedora 44, far2l 2.8" };
+  document.querySelectorAll(".gallery[data-env]").forEach(function (box) {
+    var env = box.dataset.env;
+    shots.forEach(function (s) {
+      var fig = document.createElement("figure");
+      if (s[2]) fig.className = "wide";
+      var src = "img/" + env + "-" + s[0] + ".png";
+      var cap = s[1] + " — " + envName[env];
+      fig.innerHTML = '<div class="shot-frame"><button type="button"></button></div><figcaption></figcaption>';
+      var btn = fig.querySelector("button");
+      btn.dataset.src = src;
+      btn.dataset.caption = cap;
+      var img = document.createElement("img");
+      img.src = src; img.alt = cap; img.loading = "lazy"; img.width = 1200; img.height = 684;
+      btn.appendChild(img);
+      fig.querySelector("figcaption").textContent = s[1];
+      box.appendChild(fig);
+    });
+  });
+
+  // Переключатели (вкладки).
+  document.querySelectorAll('.segmented[role="tablist"]').forEach(function (list) {
+    var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+    }
+    select(tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0] || tabs[0]);
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(t); });
+      t.addEventListener("keydown", function (e) {
+        var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        var n = tabs[(i + d + tabs.length) % tabs.length];
+        n.focus(); select(n); e.preventDefault();
+      });
+    });
+  });
+
+  // Увеличение снимков.
+  var box = document.getElementById("lightbox");
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-src]");
+    if (!b) return;
+    if (!box.showModal) { window.open(b.dataset.src, "_blank"); return; }
+    box.querySelector("img").src = b.dataset.src;
+    box.querySelector("img").alt = b.dataset.caption || "";
+    box.querySelector("p").textContent = b.dataset.caption || "";
+    box.showModal();
+  });
+  box.addEventListener("click", function (e) { if (e.target === box) box.close(); });
+
+  // Кнопки «скопировать» у блоков кода.
+  var icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></svg>';
+  var ok = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z"/></svg>';
+  function legacyCopy(text) {
+    var back = document.activeElement, done = false;
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.top = "0"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { done = document.execCommand("copy"); } catch (err) { done = false; }
+    document.body.removeChild(ta);
+    if (back && back.focus) back.focus();
+    return done;
+  }
+  function copyText(text) {
+    var fallback = function () { if (!legacyCopy(text)) throw new Error("copy failed"); };
+    if (navigator.clipboard && window.isSecureContext) {
+      // Встроенные браузеры иногда не отвечают на запрос буфера обмена: ждём не дольше секунды.
+      var timeout = new Promise(function (_, reject) { setTimeout(reject, 1000); });
+      return Promise.race([navigator.clipboard.writeText(text), timeout]).catch(fallback);
+    }
+    return Promise.resolve().then(fallback);
+  }
+  function selectText(el) {  // не получилось скопировать — выделим текст, чтобы скопировать вручную
+    var r = document.createRange(); r.selectNodeContents(el);
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  }
+  document.querySelectorAll(".code").forEach(function (block) {
+    var b = document.createElement("button");
+    b.className = "copy"; b.type = "button"; b.innerHTML = icon;
+    b.setAttribute("aria-label", "Скопировать");
+    b.addEventListener("click", function () {
+      var pre = block.querySelector("pre");
+      copyText(pre.innerText.trim()).then(function () {
+        b.innerHTML = ok; b.classList.add("done"); b.setAttribute("aria-label", "Скопировано");
+        setTimeout(function () { b.innerHTML = icon; b.classList.remove("done"); b.setAttribute("aria-label", "Скопировать"); }, 1600);
+      }, function () { selectText(pre); });
+    });
+    block.appendChild(b);
+  });
+
+  // Тень у шапки при прокрутке.
+  var bar = document.querySelector(".headerbar");
+  function shade() { bar.classList.toggle("scrolled", window.scrollY > 4); }
+  window.addEventListener("scroll", shade, { passive: true });
+  shade();
+})();
+</script>
+</body>
+</html>
